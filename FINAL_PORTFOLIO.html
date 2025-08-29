@@ -703,9 +703,11 @@
     </main>
 
     <script>
-        // Smooth scroll and active nav highlight
+        // Smooth scroll and scrollspy nav highlight
         document.addEventListener('DOMContentLoaded', () => {
             const navLinks = document.querySelectorAll('nav ul li a');
+            const sections = Array.from(document.querySelectorAll('main section'));
+            // Smooth scroll on click
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     const targetId = this.getAttribute('href').replace('#', '');
@@ -716,11 +718,44 @@
                             top: targetSection.offsetTop - 55,
                             behavior: 'smooth'
                         });
-                        navLinks.forEach(l => l.classList.remove('active'));
-                        this.classList.add('active');
                     }
                 });
             });
+
+            // Scrollspy effect
+            function activateNav(sectionId) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === '#' + sectionId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+
+            // Use IntersectionObserver for best performance
+            const observerOptions = {
+                root: null,
+                rootMargin: '-60px 0px 0px 0px', // account for header
+                threshold: 0.5 // 50% of section visible
+            };
+            let currentActive = 'home';
+            const observer = new window.IntersectionObserver((entries) => {
+                let visibleSections = entries.filter(entry => entry.isIntersecting);
+                if (visibleSections.length > 0) {
+                    // Pick the section closest to the top
+                    visibleSections.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+                    const id = visibleSections[0].target.id;
+                    if (id !== currentActive) {
+                        activateNav(id);
+                        currentActive = id;
+                    }
+                }
+            }, observerOptions);
+            sections.forEach(section => observer.observe(section));
+
+            // On load, highlight home
+            activateNav('home');
         });
     </script>
 </body>
