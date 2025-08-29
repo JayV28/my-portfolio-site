@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vic Jay Bance Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #07101b;
+            --secondary-dark: #152232;
+            --accent-blue: #00bcff;
+            --accent-hover: #4dcfff;
+            --text-light: #e6ecef;
+            --card-bg: #152232;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-light);
+            background-color: var(--primary-dark);
+            overflow-x: hidden;
+        }
+        header {
+            background: linear-gradient(90deg, var(--primary-dark), var(--secondary-dark));
+            padding: 12px 30px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -6px;
+            left: 0;
+            background-color: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+        nav ul li a:hover::after, nav ul li a.active::after {
+            width: 100%;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--accent-hover);
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+        nav ul li a:hover {
+            animation: smoothPop 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
+        main {
+            padding-top: 60px;
+        }
+        section {
+            min-height: calc(100vh - 60px);
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            pointer-events: none;
+            background-size: cover;
+            background-attachment: fixed;
+            position: absolute;
+            left: 0; right: 0; width: 100%;
+            top: 60px;
+            z-index: 1;
+            transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+        }
+        section.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            z-index: 2;
+        }
+        main {
+            position: relative;
+            min-height: calc(100vh - 60px);
+        }
+        /* Home Section */
+        #home {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://jayv28.github.io/my-resume-site/HOME.jpg') no-repeat center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .hero {
+            max-width: 700px;
+            padding: 20px;
+            animation: fadeInUp 0.8s ease-in-out;
+        }
+        .profile-pic {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-blue);
+            object-fit: cover;
+            margin: 0 auto 20px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .profile-pic:hover {
+            transform: scale(1.1) rotate(3deg);
+            box-shadow: 0 0 25px rgba(0, 188, 255, 0.7);
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0 0 12px;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .hero h2 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        /* About Me Section */
+        #about {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://jayv28.github.io/my-resume-site/about%20me.jpg') no-repeat center/cover;
+        }
+        .about-header {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            color:  var(--text-light);
+            margin: 0 0 20px;
+            animation: slideInLeft 0.6s ease-in-out;
+        }
+        .about-content {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: transform 0.4s ease;
+        }
+        .about-content:hover {
+            transform: translateY(-5px);
+        }
+        .about-content p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-in-out forwards;
+        }
+        .about-content p:nth-child(1) { animation-delay: 0.1s; }
+        .about-content p:nth-child(2) { animation-delay: 0.2s; }
+        .about-content p:nth-child(3) { animation-delay: 0.3s; }
+        .about-content p:nth-child(4) { animation-delay: 0.4s; }
+        /* Skills Section */
+        #skills {
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('https://jayv28.github.io/my-resume-site/Skill%20&%20Expertise.jpg') no-repeat center/cover;
+        }
+        .skills-header {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--text-light);
+            margin: 0 0 20px;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .skill-category {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skill-category:hover {
+            transform: translateY(-6px) rotate(2deg) scale(1.07);
+            box-shadow: 0 10px 20px rgba(0, 188, 255, 0.4);
+            animation: smoothPop 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
+        .skill-category h3 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .skill-category ul {
+            list-style: none;
+            padding: 0;
+        }
+        .skill-category li {
+            font-size: 0.9rem;
+            color: #34495e;
+            text-align: center;
+            margin-bottom: 6px;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-in-out forwards;
+        }
+        .skill-category li:nth-child(1) { animation-delay: 0.1s; }
+        .skill-category li:nth-child(2) { animation-delay: 0.2s; }
+        .skill-category li:nth-child(3) { animation-delay: 0.3s; }
+        .skill-category li:nth-child(4) { animation-delay: 0.4s; }
+        .skill-category li:nth-child(5) { animation-delay: 0.5s; }
+        /* Education Section */
+        #education {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://jayv28.github.io/my-resume-site/education.jpg') no-repeat center/cover;
+        }
+        .education-header {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--text-light);
+            margin: 0 0 20px;
+            animation: slideInRight 0.6s ease-in-out;
+        }
+        .education-content {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .education-item {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        .education-item:hover {
+            transform: scale(1.07);
+            animation: smoothPop 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
+        .education-item h3 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+        .education-item p {
+            font-size: 0.9rem;
+            color: #34495e;
+            margin: 4px 0;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-in-out forwards;
+        }
+        .education-item p:nth-child(2) { animation-delay: 0.1s; }
+        .education-item p:nth-child(3) { animation-delay: 0.2s; }
+        .education-item p:nth-child(4) { animation-delay: 0.3s; }
+        /* Experience Section */
+        #experience {
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('https://jayv28.github.io/my-resume-site/Work%20Experience.jpg') no-repeat center/cover;
+        }
+        .experience-header {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--text-light);
+            margin: 0 0 20px;
+            animation: fadeInDown 0.6s ease-in-out;
+        }
+        .experience-content {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .experience-item {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        .experience-item:hover {
+            transform: translateX(6px) scale(1.07);
+            animation: smoothPop 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
+        .experience-item h3 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+        .experience-item p {
+            font-size: 0.9rem;
+            color: #34495e;
+            margin: 4px 0;
+        }
+        .experience-item ul {
+            list-style: disc;
+            padding-left: 15px;
+            margin-top: 8px;
+        }
+        .experience-item li {
+            font-size: 0.9rem;
+            color: #34495e;
+            margin-bottom: 6px;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-in-out forwards;
+        }
+        .experience-item li:nth-child(1) { animation-delay: 0.1s; }
+        .experience-item li:nth-child(2) { animation-delay: 0.2s; }
+        .experience-item li:nth-child(3) { animation-delay: 0.3s; }
+        .experience-item li:nth-child(4) { animation-delay: 0.4s; }
+        /* Licensure Section */
+        #licensure {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://jayv28.github.io/my-resume-site/professional.jpg') no-repeat center/cover;
+        }
+        .licensure-header {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--text-light);
+            margin: 0 0 20px;
+            animation: zoomIn 0.6s ease-in-out;
+        }
+        .licensure-content {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .licensure-item {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        .licensure-item:hover {
+            transform: rotate(1deg) scale(1.07);
+            animation: smoothPop 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
+        .licensure-item h3 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+        .licensure-item p {
+            font-size: 0.9rem;
+            color: #34495e;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-in-out forwards;
+        }
+        /* Contact Section */
+        #contact {
+            background: linear-gradient(rgba(0, 188, 255, 0.18), rgba(0, 188, 255, 0.18)), url('https://images.unsplash.com/photo-1516321310768-61f3f5c320b6') no-repeat center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .contact-header {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-light);
+            margin: 0 0 20px;
+            animation: bounceIn 0.6s ease-in-out;
+        }
+        .contact-content {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 12px;
+        }
+        .contact-item {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        .contact-item:hover {
+            transform: scale(1.07);
+            animation: smoothPop 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
+        .contact-item i {
+            margin-right: 10px;
+            font-size: 1.3rem;
+            color: var(--accent-blue);
+        }
+        .contact-item a, .contact-item span {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+        .contact-item a:hover {
+            color: var(--accent-hover);
+        }
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes bounceIn {
+            from { opacity: 0; transform: scale(0.7); }
+            50% { transform: scale(1.05); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes pulse {
+        @keyframes smoothPop {
+            0% {
+                transform: scale(1);
+            @keyframes smoothPop {
+                0% {
+                    transform: scale(1);
+                }
+                40% {
+                    transform: scale(1.07);
+                }
+                100% {
+                    transform: scale(1.07);
+                }
+            }
+            100% {
+                transform: scale(1.07);
+            }
+        }
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header { padding: 10px 15px; }
+            nav ul { gap: 12px; }
+            main { padding-top: 50px; }
+            section { min-height: calc(100vh - 50px); padding: 15px; }
+            .hero h1 { font-size: 2rem; }
+            .hero h2 { font-size: 1.4rem; }
+            .hero p { font-size: 0.9rem; max-width: 90%; }
+            .profile-pic { width: 130px; height: 130px; }
+            .about-header, .skills-header, .education-header, .experience-header, .licensure-header, .contact-header {
+                font-size: 2rem;
+            }
+            .about-content, .skills-grid, .education-content, .experience-content, .licensure-content, .contact-content {
+                padding: 12px;
+                max-width: 100%;
+            }
+            .skill-category, .education-item, .experience-item, .licensure-item {
+                padding: 12px;
+            }
+            .skill-category h3, .education-item h3, .experience-item h3, .licensure-item h3 {
+                font-size: 1.3rem;
+            }
+            .skill-category li, .education-item p, .experience-item p, .experience-item li, .licensure-item p {
+                font-size: 0.85rem;
+            }
+            .contact-item { font-size: 0.9rem; }
+            .contact-item i { font-size: 1.2rem; }
+            .contact-content { max-width: 350px; }
+        }
+        @media (max-width: 480px) {
+            nav ul { flex-direction: column; gap: 8px; text-align: center; }
+            .hero h1 { font-size: 1.5rem; }
+            .hero h2 { font-size: 1.2rem; }
+            .profile-pic { width: 100px; height: 100px; }
+            .about-header, .skills-header, .education-header, .experience-header, .licensure-header, .contact-header {
+                font-size: 1.8rem;
+            }
+            .about-content, .skills-grid, .education-content, .experience-content, .licensure-content, .contact-content {
+                padding: 10px;
+            }
+            .skill-category, .education-item, .experience-item, .licensure-item {
+                padding: 10px;
+            }
+            .contact-content { max-width: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a onclick="showSection('home')" class="active">Home</a></li>
+                <li><a onclick="showSection('about')">About Me</a></li>
+                <li><a onclick="showSection('skills')">Skills & Expertise</a></li>
+                <li><a onclick="showSection('education')">Education</a></li>
+                <li><a onclick="showSection('experience')">Work Experience</a></li>
+                <li><a onclick="showSection('licensure')">Professional Licensure</a></li>
+                <li><a onclick="showSection('contact')">Let's Work Together!</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="active">
+            <div class="hero">
+                <img src="https://jayv28.github.io/my-resume-site/a--.jpg" alt="Profile Picture" class="profile-pic">
+                <h1>VIC JAY MILLETE BANCE, ECT</h1>
+                <h2>IT & CAD Specialist</h2>
+                <p>Welcome to my portfolio. With expertise in IT solutions and CAD design, I deliver innovative projects tailored to industry needs. Explore my skills, experience, and achievements to see how I can contribute to your team.</p>
+            </div>
+        </section>
+        <section id="about">
+            <h1 class="about-header">About Me</h1>
+            <div class="about-content">
+                <p>I am Vic Jay M. Bance, a license Electronics Technician with strong experience in AutoCAD 2D/3D drafting, AVEVA E3D plant design, and GIS mapping tools. My expertise spans across technical design, IT support, and project documentation, making me a versatile professional capable of handling both engineering and digital solutions.</p>
+                <p>Currently, I am working as a Project Coordinator/TA Designer at Fiberhome Telecommunication Technologies Co., Ltd., where I specialize in updating final As-Built plans, revising designs based on implementation, and documenting detailed project records.</p>
+                <p>Previously, I served as a System Engineer at Sky Plant Technology Cebu Inc., where I maintained and troubleshot IT systems while also applying my design skills using AVEVA E3D, AutoCAD Plant 3D, AutoCAD 2D, and AutoCAD 3D. Earlier in my career, I worked as a Survey Programmer at Dynata, gaining valuable experience in software testing and problem-solving.</p>
+                <p>I am passionate about leveraging my knowledge in design and technology to contribute to projects that require accuracy, innovation, and attention to detail. My goal is to continuously grow as a professional while delivering meaningful results in both engineering and technology fields.</p>
+            </div>
+        </section>
+        <section id="skills">
+            <h1 class="skills-header">Skills & Expertise</h1>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>CAD & Design</h3>
+                    <ul>
+                        <li>AutoCAD 2D/3D Drafting</li>
+                        <li>E3D / AVEVA System Administrator</li>
+                        <li>AutoCAD Plant 3D</li>
+                        <li>GIS Mapping Tools</li>
+                        <li>Tarpaulin Layout Design</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>IT & Technical Support</h3>
+                    <ul>
+                        <li>System Maintenance</li>
+                        <li>Troubleshooting IT Systems</li>
+                        <li>Software Testing</li>
+                        <li>Basic Programming</li>
+                        <li>Remote Troubleshooting (AnyDesk/Teamviewer</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Software Proficiency</h3>
+                    <ul>
+                        <li>Microsoft Office Suite</li>
+                        <li>Project Documentation Tools</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Soft Skills</h3>
+                    <ul>
+                        <li>Project Coordination</li>
+                        <li>Attention to Detail</li>
+                        <li>Problem-Solving</li>
+                        <li>Innovation in Design</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section id="education">
+            <h1 class="education-header">Education</h1>
+            <div class="education-content">
+                <div class="education-item">
+                    <h3>Tertiary Education</h3>
+                    <p>BS-Electronics & Communication Engineering</p>
+                    <p>University of Northeastern Philippines</p>
+                    <p>San Rogue, Iriga City</p>
+                    <p>2019 - 2020</p>
+                </div>
+                <div class="education-item">
+                    <h3>Secondary Education</h3>
+                    <p>University of Northeastern Philippines</p>
+                    <p>San Rogue, Iriga City</p>
+                    <p>2014 - 2015</p>
+                </div>
+                <div class="education-item">
+                    <h3>Elementary Education</h3>
+                    <p>Rinconada Allied Cultural School Foundation Inc.</p>
+                    <p>San Jose, Iriga City</p>
+                </div>
+            </div>
+        </section>
+        <section id="experience">
+            <h1 class="experience-header">Work Experience</h1>
+            <div class="experience-content">
+                <div class="experience-item">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h3>Project Coordinator/TA Designer</h3>
+                            <p>Fiberhome Telecommunication Technologies Co., Ltd.</p>
+                            <p>8W49+R5R, Sergio Osmeña Jr Blvd, Cebu City, 6000 Cebu</p>
+                            <p>January 2024 - Present</p>
+                        </div>
+                        <img src="https://jayv28.github.io/my-resume-site/fiberhome.jpg" alt="Fiberhome Logo" style="width:80px; height:80px; object-fit:contain; border-radius:8px; margin-left:16px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+                    </div>
+                    <ul>
+                        <li>Updated the final As-Built plan using AutoCAD 2D.</li>
+                        <li>Revised designs based on the final project implementation.</li>
+                        <li>Documented the project site, including As-Built Plans, Network Configuration, PPGIS, PSGC, TA attachments, and AutoCAD Map 3D files with layers.</li>
+                        <li>Created advanced files to streamline workflow and ensure targets were met by the end of the month.</li>
+                        <li>Monitored and tracked missing documents for Acceptance Date.</li>
+                        <li>Prepared Change Request Forms (CRF) and submitted them to Engineers via email.</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h3>System Engineer</h3>
+                            <p>Sky Plant Technology Cebu Inc.</p>
+                            <p>Osmeña Blvd, Cebu City</p>
+                            <p>March 2023 - December 2023</p>
+                        </div>
+                        <img src="https://jayv28.github.io/my-resume-site/SPTC.jpg" alt="SPTC Logo" style="width:80px; height:80px; object-fit:contain; border-radius:8px; margin-left:16px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+                    </div>
+                    <ul>
+                        <li>Maintained and troubleshot servers and employees' computers when issues or errors occurred.</li>
+                        <li>Managed and administered the AVEVA E3D environment for an international plant design project. Responsibilities included E3D installation and configuration, catalogue and specification editing (valves, tees, elbows, caps, etc.), parameter customization based on 2D drawings from overseas, and troubleshooting model/database issues for CAD operators.</li>
+                        <li>Utilized AutoCAD Plant 3D, AutoCAD 2D, and AutoCAD 3D for design purposes.</li>
+                        <li>Designed tarpaulin layouts for company events and occasions using Photoshop.</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h3>Survey Programmer</h3>
+                            <p>Dynata</p>
+                            <p>Lapu-Lapu City Cebu, Central Visayas</p>
+                            <p>September 2021 - January 2022</p>
+                        </div>
+                        <img src="https://jayv28.github.io/my-resume-site/DYNATA%20(1).jpg" alt="Dynata Logo" style="width:80px; height:80px; object-fit:contain; border-radius:8px; margin-left:16px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+                    </div>
+                    <ul>
+                        <li>Responsible for programming and managing online surveys for market research using specialized tools.</li>
+                        <li>Assisting senior developers in testing programs, identifying errors, and ensuring the software runs smoothly.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section id="licensure">
+            <h1 class="licensure-header">Professional Licensure</h1>
+            <div class="licensure-content">
+                <div class="licensure-item">
+                    <h3>Electronics Technician (ECT)</h3>
+                    <p>Passed Date: April 22, 2022</p>
+                </div>
+                <div class="licensure-item">
+                    <h3>National Certificate I in Automotive Servicing</h3>
+                    <p>Passed Date: December 2017</p>
+                </div>
+                <div class="licensure-item">
+                    <h3>National Certificate II in Automotive Servicing</h3>
+                    <p>Passed Date: May 2018</p>
+                </div>
+            </div>
+        </section>
+        <section id="contact">
+            <h1 class="contact-header">Let's Work Together!</h1>
+            <div class="contact-content">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Little Flower Dormitel, La Guardia, Lahug, Cebu City</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:09391462903">09391462903</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:bancevicjay@gmail.com">bancevicjay@gmail.com</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let currentSectionId = 'home';
+        function showSection(sectionId) {
+            if (sectionId === currentSectionId) return;
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav ul li a');
+            const prevSection = document.getElementById(currentSectionId);
+            const nextSection = document.getElementById(sectionId);
+            const prevLink = document.querySelector(`nav ul li a[onclick="showSection('${currentSectionId}')"]`);
+            const nextLink = document.querySelector(`nav ul li a[onclick="showSection('${sectionId}')"]`);
+
+            // Remove active from nav
+            navLinks.forEach(link => link.classList.remove('active'));
+            if (nextLink) nextLink.classList.add('active');
+
+            // Fade out previous section
+            if (prevSection) {
+                prevSection.style.opacity = 0;
+                prevSection.style.transform = 'translateY(30px)';
+                prevSection.classList.remove('active');
+            }
+            // After fade out, fade in next section
+            setTimeout(() => {
+                sections.forEach(section => {
+                    if (section !== nextSection) {
+                        section.classList.remove('active');
+                        section.style.opacity = 0;
+                        section.style.transform = 'translateY(30px)';
+                    }
+                });
+                if (nextSection) {
+                    nextSection.classList.add('active');
+                    nextSection.style.opacity = 1;
+                    nextSection.style.transform = 'translateY(0)';
+                }
+                currentSectionId = sectionId;
+            }, 400);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set all sections to absolute except the first
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                if (section.id !== 'home') {
+                    section.style.opacity = 0;
+                    section.style.transform = 'translateY(30px)';
+                    section.classList.remove('active');
+                } else {
+                    section.classList.add('active');
+                    section.style.opacity = 1;
+                    section.style.transform = 'translateY(0)';
+                }
+            });
+            currentSectionId = 'home';
+        });
+    </script>
+</body>
+</html>
