@@ -76,22 +76,18 @@
         section {
             min-height: calc(100vh - 60px);
             padding: 20px;
-            opacity: 0;
-            transform: translateY(30px);
-            pointer-events: none;
+            opacity: 1;
+            transform: none;
+            pointer-events: auto;
             background-size: cover;
             background-attachment: fixed;
-            position: absolute;
-            left: 0; right: 0; width: 100%;
-            top: 60px;
+            position: static;
+            width: 100%;
             z-index: 1;
-            transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+            transition: none;
         }
         section.active {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-            z-index: 2;
+            /* No longer needed, all sections are visible */
         }
         main {
             position: relative;
@@ -443,19 +439,13 @@
             to { opacity: 1; transform: scale(1); }
         }
         @keyframes pulse {
+        }
         @keyframes smoothPop {
             0% {
                 transform: scale(1);
-            @keyframes smoothPop {
-                0% {
-                    transform: scale(1);
-                }
-                40% {
-                    transform: scale(1.07);
-                }
-                100% {
-                    transform: scale(1.07);
-                }
+            }
+            40% {
+                transform: scale(1.07);
             }
             100% {
                 transform: scale(1.07);
@@ -467,7 +457,20 @@
             header { padding: 10px 15px; }
             nav ul { gap: 12px; }
             main { padding-top: 50px; }
-            section { min-height: calc(100vh - 50px); padding: 15px; }
+                section {
+                    min-height: unset;
+                    padding: 15px;
+                }
+                #home {
+                    flex-direction: column;
+                    min-height: unset;
+                    padding: 15px;
+                }
+                #contact {
+                    flex-direction: column;
+                    min-height: unset;
+                    padding: 15px;
+                }
             .hero h1 { font-size: 2rem; }
             .hero h2 { font-size: 1.4rem; }
             .hero p { font-size: 0.9rem; max-width: 90%; }
@@ -514,13 +517,13 @@
     <header>
         <nav>
             <ul>
-                <li><a onclick="showSection('home')" class="active">Home</a></li>
-                <li><a onclick="showSection('about')">About Me</a></li>
-                <li><a onclick="showSection('skills')">Skills & Expertise</a></li>
-                <li><a onclick="showSection('education')">Education</a></li>
-                <li><a onclick="showSection('experience')">Work Experience</a></li>
-                <li><a onclick="showSection('licensure')">Professional Licensure</a></li>
-                <li><a onclick="showSection('contact')">Let's Work Together!</a></li>
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#skills">Skills & Expertise</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#experience">Work Experience</a></li>
+                <li><a href="#licensure">Professional Licensure</a></li>
+                <li><a href="#contact">Let's Work Together!</a></li>
             </ul>
         </nav>
     </header>
@@ -700,59 +703,24 @@
     </main>
 
     <script>
-        let currentSectionId = 'home';
-        function showSection(sectionId) {
-            if (sectionId === currentSectionId) return;
-            const sections = document.querySelectorAll('section');
+        // Smooth scroll and active nav highlight
+        document.addEventListener('DOMContentLoaded', () => {
             const navLinks = document.querySelectorAll('nav ul li a');
-            const prevSection = document.getElementById(currentSectionId);
-            const nextSection = document.getElementById(sectionId);
-            const prevLink = document.querySelector(`nav ul li a[onclick="showSection('${currentSectionId}')"]`);
-            const nextLink = document.querySelector(`nav ul li a[onclick="showSection('${sectionId}')"]`);
-
-            // Remove active from nav
-            navLinks.forEach(link => link.classList.remove('active'));
-            if (nextLink) nextLink.classList.add('active');
-
-            // Fade out previous section
-            if (prevSection) {
-                prevSection.style.opacity = 0;
-                prevSection.style.transform = 'translateY(30px)';
-                prevSection.classList.remove('active');
-            }
-            // After fade out, fade in next section
-            setTimeout(() => {
-                sections.forEach(section => {
-                    if (section !== nextSection) {
-                        section.classList.remove('active');
-                        section.style.opacity = 0;
-                        section.style.transform = 'translateY(30px)';
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href').replace('#', '');
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 55,
+                            behavior: 'smooth'
+                        });
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
                     }
                 });
-                if (nextSection) {
-                    nextSection.classList.add('active');
-                    nextSection.style.opacity = 1;
-                    nextSection.style.transform = 'translateY(0)';
-                }
-                currentSectionId = sectionId;
-            }, 400);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set all sections to absolute except the first
-            const sections = document.querySelectorAll('section');
-            sections.forEach(section => {
-                if (section.id !== 'home') {
-                    section.style.opacity = 0;
-                    section.style.transform = 'translateY(30px)';
-                    section.classList.remove('active');
-                } else {
-                    section.classList.add('active');
-                    section.style.opacity = 1;
-                    section.style.transform = 'translateY(0)';
-                }
             });
-            currentSectionId = 'home';
         });
     </script>
 </body>
