@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vic Jay Bance | CAD Drafting, IT Support &amp; Telecom Project Coordination</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #07101b;
+            --secondary-dark: #152232;
+            --accent-blue: #00bcff;
+            --accent-hover: #4dcfff;
+            --text-light: #e6ecef;
+            --text-body: #34495e;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+        * { box-sizing: border-box; }
+                body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-light);
+            background-color: var(--primary-dark);
+            overflow-x: hidden;
+        }
+
+        /* Header / nav */
+        header {
+            background: linear-gradient(90deg, var(--primary-dark), var(--secondary-dark));
+            padding: 14px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px 26px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s ease;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 3px;
+            background: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+        nav a:hover, nav a.active { color: var(--accent-hover); }
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        a:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 3px; }
+
+        /* Sections */
+        main { padding-top: 48px; }
+        section.page {
+            display: none;
+            padding: 60px 20px;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        section.page.active {
+            display: block;
+            min-height: calc(100vh - 48px);
+            animation: fadeInUp 0.4s ease-out;
+        }
+        #home.active { display: flex; align-items: center; justify-content: center; }
+        #contact.active { display: flex; flex-direction: column; justify-content: center; }
+        .section-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            text-align: center;
+            margin: 0 0 12px;
+        }
+        .section-sub {
+            text-align: center;
+            opacity: 0.85;
+            max-width: 620px;
+            margin: 0 auto 28px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .section-title + .container { margin-top: 28px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        /* Home */
+        #home {
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://jayv28.github.io/my-resume-site/HOME.jpg') no-repeat center/cover;
+        }
+        .hero { max-width: 700px; animation: fadeInUp 0.8s ease-out; }
+        .profile-pic {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-blue);
+            object-fit: cover;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        .hero h1 { font-size: 2.8rem; font-weight: 800; margin: 0 0 10px; }
+        .hero h2 { font-size: 1.4rem; font-weight: 400; color: var(--accent-blue); margin: 0 0 18px; }
+        .hero p { font-size: 1rem; line-height: 1.6; max-width: 520px; margin: 0 auto 22px; }
+        .chips {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .chips li {
+            border: 1px solid var(--accent-blue);
+            border-radius: 30px;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .btn {
+            display: inline-block;
+            padding: 11px 26px;
+            background: var(--accent-blue);
+            color: #07101b;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+        /* Cards */
+        .card {
+            background: #fff;
+            color: var(--text-body);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,188,255,0.35); }
+        .card h3 { font-size: 1.25rem; color: var(--primary-dark); margin: 0 0 10px; }
+        .card ul { margin: 0; padding-left: 20px; }
+        .card li { font-size: 0.92rem; line-height: 1.5; margin-bottom: 6px; }
+
+        /* Skills */
+        #skills {
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://jayv28.github.io/my-resume-site/Skill%20&%20Expertise.jpg') no-repeat center/cover;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        /* Experience */
+        #experience {
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://jayv28.github.io/my-resume-site/professional.jpg') no-repeat center/cover;
+        }
+        .experience-list { max-width: 850px; margin: 0 auto; display: grid; gap: 18px; }
+        .job-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 10px; }
+        .job-head h3 { margin-bottom: 4px; }
+        .job-head p { margin: 2px 0; font-size: 0.9rem; }
+        .job-head .dates { font-weight: 600; color: #0a7fa8; }
+        .job-head img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        /* Sample work */
+        #samples {
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://jayv28.github.io/my-resume-site/professional.jpg') no-repeat center/cover;
+        }
+        .samples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .sample-item { text-align: center; padding: 25px 20px; }
+        .sample-item i { font-size: 2.4rem; color: var(--accent-blue); margin-bottom: 12px; }
+        .sample-item h3 { font-size: 1.2rem; margin: 0 0 8px; }
+        .sample-item p { font-size: 0.9rem; line-height: 1.5; margin: 0 0 16px; }
+
+        /* Licenses & certificates */
+        #credentials {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://jayv28.github.io/my-resume-site/education.jpg') no-repeat center/cover;
+        }
+        .cred-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            align-items: stretch;
+        }
+        .cert-card { grid-column: 1 / -1; }
+        .cert-card ul { columns: 2; column-gap: 40px; }
+        .cert-card li { break-inside: avoid; }
+        @media (max-width: 700px) { .cert-card ul { columns: 1; } .cred-grid { grid-template-columns: 1fr; } }
+        .card li strong { color: var(--primary-dark); }
+        .card li .meta { display: block; font-size: 0.85rem; }
+
+        /* Contact */
+        #contact {
+            text-align: center;
+            background: linear-gradient(rgba(0,188,255,0.18), rgba(0,188,255,0.18)), url('https://images.unsplash.com/photo-1516321310768-61f3f5c320b6') no-repeat center/cover;
+            background-color: var(--secondary-dark);
+        }
+        .contact-content { max-width: 440px; margin: 0 auto; }
+        .contact-item { margin-bottom: 14px; display: flex; align-items: center; justify-content: center; }
+        .contact-item i { margin-right: 10px; font-size: 1.3rem; color: var(--accent-blue); }
+        .contact-item a, .contact-item span { color: var(--text-light); text-decoration: none; }
+        .contact-item a:hover { color: var(--accent-hover); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            * { animation: none !important; transition: none !important; }
+        }
+
+        @media (max-width: 768px) {
+            section.page { padding: 40px 15px; background-attachment: scroll; }
+            .section-title { font-size: 2rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero h2 { font-size: 1.2rem; }
+            .profile-pic { width: 130px; height: 130px; }
+            nav a { font-size: 0.85rem; }
+            nav ul { gap: 8px 16px; }
+            main { padding-top: 70px; }
+            section.page.active { min-height: calc(100vh - 70px); }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.6rem; }
+            .job-head img { width: 56px; height: 56px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#samples">Sample Work</a></li>
+                <li><a href="#credentials">Education &amp; Certificates</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="page">
+            <div class="hero">
+                <img src="https://jayv28.github.io/my-resume-site/a--.jpg" alt="Vic Jay Bance" class="profile-pic">
+                <h1>Vic Jay Millete Bance, ECT</h1>
+                <h2>IT Systems, CAD Drafting &amp; Telecom Project Coordinator</h2>
+                <p>I turn site changes into accurate as-built plans, keep systems running, and keep project documents complete.</p>
+                <ul class="chips">
+                    <li>Licensed Electronics Technician</li>
+                    <li>FTTH / FTTB As-Built Plans</li>
+                    <li>AVEVA E3D Administrator</li>
+                    <li>IT &amp; Network Support</li>
+                </ul>
+                <a href="#samples" class="btn">See my work</a>
+            </div>
+        </section>
+
+        <section id="skills" class="page">
+            <h1 class="section-title">Skills</h1>
+            <div class="container skills-grid">
+                <div class="card">
+                    <h3>CAD &amp; Design</h3>
+                    <ul>
+                        <li>AutoCAD 2D/3D Drafting</li>
+                        <li>AutoCAD Plant 3D</li>
+                        <li>Autodesk Revit (Beginner level)</li>
+                        <li>BricsCAD</li>
+                        <li>E3D / AVEVA System Administrator</li>
+                        <li>GIS Mapping Tools</li>
+                        <li>Photoshop</li>
+                        <li>Canva</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>IT &amp; Technical Support</h3>
+                    <ul>
+                        <li>System Maintenance and Troubleshooting (Hardware &amp; Software)</li>
+                        <li>Networking: LAN, Wi-Fi, and System Configuration</li>
+                        <li>Remote Technical Support and Troubleshooting</li>
+                        <li>Basic HTML and Python Programming</li>
+                        <li>AutoCAD and AutoLISP Custom Programming</li>
+                        <li>Hardware and Software Installation and Configuration</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Software Proficiency</h3>
+                    <ul>
+                        <li>Microsoft Office Suite</li>
+                        <li>Project Documentation Tools</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="page">
+            <h1 class="section-title">Experience</h1>
+            <div class="experience-list">
+                <div class="card">
+                    <div class="job-head">
+                        <div>
+                            <h3>Project Coordinator / TA Designer</h3>
+                            <p>Fiberhome Telecommunication Technologies Co., Ltd.</p>
+                            <p class="dates">January 2024 - October 2026</p>
+                        </div>
+                        <img src="https://jayv28.github.io/my-resume-site/fiberhome.jpg" alt="Fiberhome logo">
+                    </div>
+                    <ul>
+                        <li>Updated FTTH designs into As-Built Plans (ABP) using AutoCAD 2D based on actual site changes.</li>
+                        <li>Prepared and organized FTTH project files such as As-Built Plans, Network Configuration, PPGIS, PSGC, TA documents, and AutoCAD Map 3D files.</li>
+                        <li>Created working files and templates to make the work faster and easier.</li>
+                        <li>Checked and followed up on missing documents needed for project acceptance.</li>
+                        <li>Prepared Change Request Forms (CRF) and sent them to engineers through email.</li>
+                        <li>Also worked on FTTB (Fiber-to-the-Building) projects and helped with project documents and other technical tasks.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="job-head">
+                        <div>
+                            <h3>System Engineer</h3>
+                            <p>Sky Plant Technology Cebu Inc.</p>
+                            <p class="dates">March 2023 - December 2023</p>
+                        </div>
+                        <img src="https://jayv28.github.io/my-resume-site/SPTC.jpg" alt="Sky Plant Technology logo">
+                    </div>
+                    <ul>
+                        <li>Provided technical support by diagnosing and resolving computer hardware and software issues reported by employees.</li>
+                        <li>Maintained and monitored company servers, computers, and IT equipment.</li>
+                        <li>Performed regular server maintenance, system checks, and basic troubleshooting to ensure system reliability.</li>
+                        <li>Conducted computer backups to protect important company files and data.</li>
+                        <li>Supported LAN connectivity, including checking network switches, routers, and IP address configurations.</li>
+                        <li>Troubleshot network connectivity issues to maintain stable office network connections.</li>
+                        <li>Supported AVEVA E3D for an international plant design project and helped resolve 3D model and database-related issues.</li>
+                        <li>Updated plant components and specifications, such as valves, tees, elbows, and caps, based on 2D drawings.</li>
+                        <li>Used AutoCAD Plant 3D, AutoCAD 2D, and AutoCAD 3D for drafting and design tasks.</li>
+                        <li>Set up computers for new employees, including software installation and initial system configuration.</li>
+                        <li>Installed, configured, and troubleshot software used by employees.</li>
+                        <li>Assisted HR with checking employee attendance and updating attendance records.</li>
+                        <li>Created tarpaulin designs for company events using Adobe Photoshop.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="job-head">
+                        <div>
+                            <h3>Survey Programmer</h3>
+                            <p>Dynata</p>
+                            <p class="dates">September 2021 - January 2022</p>
+                        </div>
+                        <img src="https://jayv28.github.io/my-resume-site/DYNATA%20(1).jpg" alt="Dynata logo">
+                    </div>
+                    <ul>
+                        <li>Programmed and managed online surveys for market research using specialized survey tools.</li>
+                        <li>Assisted senior developers in testing survey programs, identifying errors, and ensuring smooth functionality.</li>
+                        <li>Collaborated with the team to ensure data accuracy and survey quality.</li>
+                        <li>Maintained documentation of survey processes and updates for future reference.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="samples" class="page">
+            <h1 class="section-title">Sample Work</h1>
+            <p class="section-sub">Real As-Built documentation for FTTB, FTTH and feeder sites, plus 2D/3D CAD drafting.</p>
+            <div class="container samples-grid">
+                <div class="card sample-item">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>FTTB Site Sample</h3>
+                    <p>Fiber-to-the-Building as-built documentation and network layout.</p>
+                    <a href="https://jayv28.github.io/my-resume-site/FTTB%20SITE%20SAMPLE.pdf" target="_blank" rel="noopener noreferrer" class="btn">View PDF</a>
+                </div>
+                <div class="card sample-item">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>FTTH Site Sample</h3>
+                    <p>Fiber-to-the-Home as-built documentation and network layout.</p>
+                    <a href="https://jayv28.github.io/my-resume-site/FTTH%20SITE%20SAMPLE.pdf" target="_blank" rel="noopener noreferrer" class="btn">View PDF</a>
+                </div>
+                <div class="card sample-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <h3>Feeder As-Built Sample</h3>
+                    <p>Uplink-feeder plan with vicinity map, 216F/72F closures, ODF and isometric view.</p>
+                    <a href="https://jayv28.github.io/my-resume-site/FEEDER_SAMPLE_DESIGN.pdf" target="_blank" rel="noopener noreferrer" class="btn">View PDF</a>
+                </div>
+                <div class="card sample-item">
+                    <i class="fas fa-cube"></i>
+                    <h3>2D &amp; 3D Design Sample</h3>
+                    <p>AutoCAD drafting: cabinet, sala set, stove range and a butterfly valve with actuator.</p>
+                    <a href="https://jayv28.github.io/my-resume-site/SAMPLE_3D_DESIGN.pdf" target="_blank" rel="noopener noreferrer" class="btn">View PDF</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="credentials" class="page">
+            <h1 class="section-title">Education, Licenses &amp; Certificates</h1>
+            <div class="container cred-grid">
+                <div class="card">
+                    <h3>Education</h3>
+                    <ul>
+                        <li><strong>College Diploma: BS Electronics &amp; Communication Engineering</strong><span class="meta">University of Northeastern Philippines</span><span class="meta">San Rogue, Iriga City</span><span class="meta">2015 - 2020</span></li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Professional License</h3>
+                    <ul>
+                        <li><strong>Electronics Technician (ECT)</strong><span class="meta">Passed April 22, 2022</span></li>
+                        <li><strong>National Certificate II in Automotive Servicing</strong><span class="meta">Passed April 22, 2022</span></li>
+                        <li><strong>National Certificate I in Automotive Servicing</strong><span class="meta">Passed December 2017</span></li>
+                    </ul>
+                </div>
+                <div class="card cert-card">
+                    <h3>Certifications &amp; Workshops</h3>
+                    <ul>
+                        <li><strong>PLC and SCADA Technical Seminar</strong><span class="meta">MFI Polytechnic Institute Inc., Pasig City</span><span class="meta">February 23, 2019</span></li>
+                        <li><strong>Introduction to CCTV Systems &amp; AutoCAD Layouts</strong><span class="meta">Alison Online Course</span><span class="meta">October 18, 2022</span></li>
+                        <li><strong>IECEP National Student Summit 2018</strong><span class="meta">University of the Philippines Diliman, Quezon City</span><span class="meta">November 10, 2018</span></li>
+                        <li><strong>15th IECEP-BSC Anniversary &ldquo;Concinnity Adherence to Diversity&rdquo;</strong><span class="meta">Bicol University Polangui Campus</span><span class="meta">November 24-25, 2018</span></li>
+                        <li><strong>14th IECEP-BSC Student Summit &ldquo;Cynosure: Capacitating Budding Engineers with the 21st Century Standard&rdquo;</strong><span class="meta">Bicol University Polangui Campus</span><span class="meta">August 28, 2017</span></li>
+                        <li><strong>IECEP Regional Leadership Camp &ldquo;Strengthening Innovative Leadership&rdquo;</strong><span class="meta">Camarines Sur Polytechnic Colleges</span><span class="meta">July 21, 2018</span></li>
+                        <li><strong>Seminar on Fundamentals of Robotics</strong><span class="meta">Camarines Sur Polytechnic Colleges</span><span class="meta">August 11, 2018</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="page">
+            <h1 class="section-title">Let's Work Together</h1>
+            <div class="contact-content">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Lahug, Cebu City</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:09391462903">09391462903</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:bancevicjay@gmail.com">bancevicjay@gmail.com</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // One page at a time: the nav (and any #link) shows only that page.
+        document.addEventListener('DOMContentLoaded', () => {
+            const links = document.querySelectorAll('nav a');
+            const pages = document.querySelectorAll('main section.page');
+            const ids = Array.from(pages).map(p => p.id);
+
+            function showPage() {
+                const id = ids.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'home';
+                pages.forEach(p => p.classList.toggle('active', p.id === id));
+                links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+                window.scrollTo(0, 0);
+            }
+
+            window.addEventListener('hashchange', showPage);
+            window.addEventListener('load', () => window.scrollTo(0, 0));
+            showPage();
+        });
+    </script>
+</body>
+</html>
